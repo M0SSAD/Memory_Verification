@@ -4,4 +4,5 @@ package classes;
     `include "transaction.svh"
     `include "sequencer.svh"
     `include "sequence_lib.svh"
+    `include "monitor.svh"
 endpackage

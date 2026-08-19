@@ -19,14 +19,6 @@ class transaction;
     constraint reset_range {
         rst_n dist {0:/10, 1:/90};
     }
-    constraint reset {
-        if(rst_n == 0) {
-            addr == '0;
-            data_in == '0;
-            en == '0;
-        }
-    }
-
     // constructor
     function new(bit is_copy = 0);
         if(!is_copy) begin

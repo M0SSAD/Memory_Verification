@@ -5,6 +5,17 @@ class base_sequence;
     endtask
 endclass
 
+class reset_sequence extends base_sequence;
+    task run(sequencer seqr);
+        transaction tx;
+        tx = new();
+        assert(tx.randomize()) else $fatal(1, "randomization failed in the reset_sequence!");
+        tx.rst_n = 0;
+        tx.print("reset_sequence");
+        seqr.send_item(tx);
+    endtask
+endclass
+
 class random_rw_sequence extends base_sequence;
     task run(sequencer seqr); 
         for(int i = 0; i < num_of_txs; i++) begin
