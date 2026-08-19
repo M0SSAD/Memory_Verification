@@ -6,4 +6,5 @@ package pack;
     `include "sequence_lib.svh"
     `include "monitor.svh"
     `include "scoreboard.svh"
+    `include "subscriber.svh"
 endpackage

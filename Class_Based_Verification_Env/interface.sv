@@ -25,4 +25,13 @@ interface mem_intf (
     modport DUT (input clk, en, rst_n, addr, data_in, output data_out, valid_out);
     modport DRV(clocking driver_cb, output rst_n);
     modport MON(clocking monitor_cb, input rst_n);
+
+    // assertion to validate TC4, the valid_out is always equal to ~en of the previous cycle
+    property valid_out_timing;
+        @(posedge clk) disable iff(!rst_n)
+            1'b1 |-> (valid_out == ~$past(en, 1)); // assert on the next clock cycle.
+    endproperty
+
+    assert_valid_out: assert property (valid_out_timing) else $error("Timing Fail: valid_out !=  ~en after one cycle.");
+
 endinterface

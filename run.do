@@ -1,2 +1,2 @@
 vlib work
-vlog Design\memory.sv Class_Based_Verification_Env\interface.sv
+vlog Class_Based_Verification_Env\mem_pkg.sv Class_Based_Verification_Env\package.sv Design\memory.sv
