@@ -1,3 +1,4 @@
+// base sequence for the handler, so I can make use of polymorphism
 class base_sequence;
     int num_of_txs = 100;
     virtual task run(sequencer seqr); 
@@ -5,6 +6,8 @@ class base_sequence;
     endtask
 endclass
 
+
+// sequence for reseting.
 class reset_sequence extends base_sequence;
     task run(sequencer seqr);
         transaction tx;
@@ -16,6 +19,7 @@ class reset_sequence extends base_sequence;
     endtask
 endclass
 
+// totally randomized sequence
 class random_rw_sequence extends base_sequence;
     task run(sequencer seqr); 
         for(int i = 0; i < num_of_txs; i++) begin
@@ -28,6 +32,7 @@ class random_rw_sequence extends base_sequence;
     endtask
 endclass
 
+// randomized write sequence
 class write_sequence extends base_sequence;
     task run(sequencer seqr); 
         for(int i = 0; i < num_of_txs; i++) begin
@@ -40,6 +45,7 @@ class write_sequence extends base_sequence;
     endtask
 endclass
 
+// randomized read after write sequence.
 class read_after_write_sequence extends base_sequence;
     task run(sequencer seqr);
         for(int i = 0; i < num_of_txs; i++) begin

@@ -1,5 +1,4 @@
 class driver;
-
     virtual mem_intf.DRV intf;
     transaction tx;
     mailbox #(transaction) mbx_sd;
@@ -23,6 +22,4 @@ class driver;
             intf.driver_cb.data_in <= tx.data_in;
         end
     endtask
-
-
 endclass

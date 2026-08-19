@@ -2,8 +2,6 @@ import mem_pkg::*;
 interface mem_intf (
     input clk
 );
-    localparam DW = DATA_WIDTH - 1;
-    localparam AW = ADDRESS_WIDTH - 1;
     logic en;
     logic rst_n;
     logic [AW:0] addr;

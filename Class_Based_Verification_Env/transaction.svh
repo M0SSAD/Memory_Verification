@@ -1,7 +1,4 @@
 class transaction;
-    localparam DW = DATA_WIDTH - 1;
-    localparam AW = ADDRESS_WIDTH - 1;
-
     int tx_id;
     static int counter;
     // Inputs of the DUT, TO BE RANDOMIZED.

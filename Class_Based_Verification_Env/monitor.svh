@@ -6,9 +6,6 @@ class monitor;
     transaction tx_sub;
     transaction tx_scb;
 
-    // Local counter for observed transactions
-    int mon_tx_id = 0;
-
     function new (virtual mem_intf.MON intf_m, mailbox #(transaction) mbxSub, mailbox #(transaction) mbxScb);
         this.intf = intf_m;
         this.mbx_sub = mbxSub;
@@ -17,10 +14,9 @@ class monitor;
 
     task run();
         forever begin
-            @(intf.monitor_cb);
+            @(intf.monitor_cb); // wait for the clock edge.
+            // sample the signals from the interface and reconstruct the tx
             tx = new(1);
-            mon_tx_id++;
-            tx.tx_id = mon_tx_id;
             tx.addr = intf.monitor_cb.addr;
             tx.valid_out = intf.monitor_cb.valid_out;
             tx.data_in = intf.monitor_cb.data_in;
@@ -28,6 +24,7 @@ class monitor;
             tx.en = intf.monitor_cb.en;
             tx.rst_n = intf.rst_n;
             tx.print("Monitor");
+            // copy the tx to send to scoreboard and subscriber
             tx_sub = tx.copy();
             tx_scb = tx.copy();
 

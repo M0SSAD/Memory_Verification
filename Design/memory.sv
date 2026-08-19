@@ -1,7 +1,7 @@
+import mem_pkg::*;
 module memory (mem_intf.DUT intf);
-    localparam MEMORY_DEPTH = 1 << intf.ADDRESS_WIDTH; // 2 ^ (width of address)
     // Memory Element
-    logic [intf.DW:0] mem [MEMORY_DEPTH];
+    logic [DW:0] mem [DEPTH];
 
     always_ff @(posedge intf.clk or negedge intf.rst_n) begin
         if(!intf.rst_n) begin
