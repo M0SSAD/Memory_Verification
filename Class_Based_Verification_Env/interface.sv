@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 import mem_pkg::*;
 interface mem_intf (
     input clk
@@ -26,12 +27,18 @@ interface mem_intf (
     modport DRV(clocking driver_cb, output rst_n);
     modport MON(clocking monitor_cb, input rst_n);
 
-    // assertion to validate TC4, the valid_out is always equal to ~en of the previous cycle
+    // the valid_out is always equal to ~en of the previous cycle
     property valid_out_timing;
         @(posedge clk) disable iff(!rst_n)
-            1'b1 |-> (valid_out == ~$past(en, 1)); // assert on the next clock cycle.
+            ($past(rst_n) === 1'b1) |-> (valid_out == ~$past(en)); // assert on the next clock cycle.
     endproperty
 
+    property reset_asserted;
+        @(posedge clk) 
+            (!rst_n) |-> (valid_out == 1'b0 && data_out == '0);
+    endproperty
+    
     assert_valid_out: assert property (valid_out_timing) else $error("Timing Fail: valid_out !=  ~en after one cycle.");
+    assert_reset_asserted: assert property (reset_asserted) else $error("Reset Fails: outputs are not zero after a reset.");
 
 endinterface

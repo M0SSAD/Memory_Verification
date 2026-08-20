@@ -1,8 +1,8 @@
 class subscriber;
     mailbox #(transaction) mbx_mon;
-    transaction tx;
+    transaction t;
 
-    covergroup mem_gb;
+    covergroup mem_gb with function sample(transaction tx);
         cp_rst_n: coverpoint tx.rst_n {
             bins zero = {0};
             bins one = {1};
@@ -30,8 +30,8 @@ class subscriber;
 
     task run();
         forever begin
-            mbx_mon.get(tx);
-            mem_gb.sample();
+            mbx_mon.get(t);
+            mem_gb.sample(t);
         end
     endtask
 

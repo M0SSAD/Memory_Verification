@@ -10,16 +10,19 @@ class driver;
 
     task run();
         forever begin
-            // get the tx from the mailbox
-            mbx_sd.get(tx);
-            tx.print("Driver");
-
-            // drive the inputs of the interface.
             @(intf.driver_cb);
-            intf.rst_n <= tx.rst_n;
-            intf.driver_cb.en <= tx.en;
-            intf.driver_cb.addr <= tx.addr;
-            intf.driver_cb.data_in <= tx.data_in;
+            // get the tx from the mailbox
+            if(mbx_sd.try_get(tx)) begin
+                // drive the inputs of the interface.
+                tx.print("Driver");
+                intf.rst_n <= tx.rst_n;
+                intf.driver_cb.en <= tx.en;
+                intf.driver_cb.addr <= tx.addr;
+                intf.driver_cb.data_in <= tx.data_in;    
+            end else begin
+                intf.driver_cb.en <= 1'b0;
+            end
+
         end
     endtask
 endclass

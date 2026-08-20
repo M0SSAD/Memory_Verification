@@ -1,1 +1,4 @@
 work
+dump.vcd
+vsim_stacktrace.vstf
+vsim.wlf
